@@ -7,7 +7,7 @@ e =Entry(root,width= 43,borderwidth=10,fg ="blue")
 buttons = [("7",1,0),("8",1,1),("9",1,2),("+",1,3),
            ("4",2,0),("5",2,1),("6",2,2),("-",2,3),
            ("3",3,0),("2",3,1),("1",3,2),("*",3,3),
-           ("0",4,0)]
+           ("0",4,0),(".",5,0),("/",4,3),("(",4,1),(")",4,2)]
 
 
 e.grid(row=0,column=0,columnspan= 4,padx=12,pady=10)
@@ -46,10 +46,10 @@ button_clear = Button(root,text= "Clear",padx= 20,pady=10,command = clear_info,f
 button_equate = Button(root,text= "=",padx= 30,pady=10,command = result,fg ="white",bg="black")
 button_del = Button(root,text= "Del",padx= 25,pady=10,command = del_fun,fg ="white",bg="black")
 
-button_clear.grid(row = 4,column=2)
+button_clear.grid(row = 5,column=2)
 
-button_equate.grid(row= 4,column=3)
-button_del.grid(row=4,column= 1)
+button_equate.grid(row= 5,column=3)
+button_del.grid(row=5,column= 1)
 
 
 
