@@ -2,17 +2,38 @@ from tkinter import *
 import math
 
 allowed_functions = {
-    "log": math.log, "sqrt": math.sqrt, "exp": math.exp,
+    "ln": math.log,         # Natural log (base e)
+    "log2": math.log2,      # Log base 2
+    "log10": math.log10,    # Log base 10
+    "logx": lambda x, b: math.log(x, b),  "sqrt": math.sqrt, "exp": math.exp,
     "sin": math.sin, "cos": math.cos, "tan": math.tan,
     "sec": lambda x: 1 / math.cos(x),
     "cosec": lambda x: 1 / math.sin(x),
     "cot": lambda x: 1 / math.tan(x),
     "asin": math.asin, "acos": math.acos, "atan": math.atan,
-    "pi": math.pi, "e": math.e
+    "π": math.pi, "e": math.e
 }
 
 flag = True
 
+
+def distroy_log():
+    global log_func
+    for i in log_func:
+        i.grid_forget()
+        
+
+def create_log():
+    global log_func
+    log_func =[]
+    buttons = (("ln(",2,3),("log2(",2,4),("log10(",3,3),("logx(",3,4))
+    for i,row,col in buttons:
+        button = Button(root,text=i,padx= 20,pady=10,command =lambda num = i:button_click(num),bg ="black",fg ="white")
+        button.grid(row=row,column=col)
+        log_func.append(button)
+    button_trigno = Button(root,text= "Log",padx= 18,pady=10,command = distroy_log,fg ="white",bg="black")
+    button_trigno.grid(row=1,column=4)
+    log_func.append(button_trigno)
 
 
 def expand():
@@ -66,7 +87,8 @@ def expand():
     buttons = [("(",1,0),(")",1,1),("7",2,1),("8",2,2),("9",2,3),("+",2,4),
            ("4",3,1),("5",3,2),("6",3,3),("-",3,4),
            ("3",4,1),("2",4,2),("1",4,3),("*",4,4),
-           ("0",5,1),("/",5,4),(".",5,2),("%",5,3)]
+           ("0",5,1),("/",5,4),(".",5,2),("%",5,3),
+           ("π",2,0),("e",3,0),(",",4,0)]
     for i,row,col in buttons:
         button = Button(root,text=i,padx= 30,pady=10,command =lambda num = i:button_click(num),bg ="black",fg ="white")
         button.grid(row=row,column=col)
@@ -74,13 +96,14 @@ def expand():
     button_clear = Button(root,text= "Clear",padx= 20,pady=10,command = clear_info,fg ="white",bg="black")
     button_equate = Button(root,text= "=",padx= 30,pady=10,command = result,fg ="white",bg="black")
     button_del = Button(root,text= "Del",padx= 25,pady=10,command = del_fun,fg ="white",bg="black")
-    button_expand = Button(root,text= "N",padx= 29,pady=10,command = normal_mode,fg ="white",bg="black")
+    button_expand = Button(root,text= "⥯",padx= 29,pady=10,command = normal_mode,fg ="white",bg="black")
     button_trigno = Button(root,text= "Trigno",padx= 18,pady=10,command = create_trigno,fg ="white",bg="black")
     button_inverse =Button(root,text= "Inv",padx= 24,pady=10,command = create_inv,fg ="white",bg="black")
-
+    button_log =Button(root,text= "log",padx= 24,pady=10,command = create_log,fg ="white",bg="black")
     button_clear.grid(row = 6,column=3)
     button_trigno.grid(row=1,column=2)
     button_inverse.grid(row=1,column=3)
+    button_log.grid(row=1,column=4)
 
     button_equate.grid(row= 6,column=4)
     button_del.grid(row=6,column= 2)
@@ -149,7 +172,8 @@ def normal_mode():
     button_clear = Button(root,text= "Clear",padx= 20,pady=10,command = clear_info,fg ="white",bg="black")
     button_equate = Button(root,text= "=",padx= 30,pady=10,command = result,fg ="white",bg="black")
     button_del = Button(root,text= "Del",padx= 25,pady=10,command = del_fun,fg ="white",bg="black")
-    button_expand = Button(root,text= "S",padx= 29,pady=10,command = expand,fg ="white",bg="black")
+    button_expand = Button(root,text= "⥯",padx= 29,pady=10,command = expand,fg ="white",bg="black")
+    
 
     button_clear.grid(row = 5,column=2)
 
