@@ -1,10 +1,63 @@
 from tkinter import *
+import math
 
-
+allowed_functions = {
+    "log": math.log, "sqrt": math.sqrt, "exp": math.exp,
+    "sin": math.sin, "cos": math.cos, "tan": math.tan,
+    "sec": lambda x: 1 / math.cos(x),
+    "cosec": lambda x: 1 / math.sin(x),
+    "cot": lambda x: 1 / math.tan(x),
+    "asin": math.asin, "acos": math.acos, "atan": math.atan,
+    "pi": math.pi, "e": math.e
+}
 
 flag = True
 
+
+
 def expand():
+
+    def distroy_inv():
+        global inv_func
+        for i in inv_func:
+            i.grid_forget()
+        
+
+    def create_inv():
+        global inv_func
+        inv_func =[]
+        buttons = (("asin(",2,2),("acos(",2,3),("atan(",2,4))
+        for i,row,col in buttons:
+            button = Button(root,text=i,padx= 20,pady=10,command =lambda num = i:button_click(num),bg ="black",fg ="white")
+            button.grid(row=row,column=col)
+            inv_func.append(button)
+        button_trigno = Button(root,text= "Inv",padx= 18,pady=10,command = distroy_inv,fg ="white",bg="black")
+        button_trigno.grid(row=1,column=3)
+        inv_func.append(button_trigno)
+
+    def distroy_trigno():
+        global trig_func
+        for i in trig_func:
+            i.grid_forget()
+        
+
+    def create_trigno():
+        global trig_func
+        trig_func =[]
+        buttons = (("sin(",2,2),("cos(",2,3),("tan(",2,4),
+           ("sec(",3,2),("cosec(",3,3),("cot(",3,4))
+        for i,row,col in buttons:
+            button = Button(root,text=i,padx= 20,pady=10,command =lambda num = i:button_click(num),bg ="black",fg ="white")
+            button.grid(row=row,column=col)
+            trig_func.append(button)
+        button_trigno = Button(root,text= "Trigno",padx= 18,pady=10,command = distroy_trigno,fg ="white",bg="black")
+        button_trigno.grid(row=1,column=2)
+        trig_func.append(button_trigno)
+        
+
+        
+
+
     hide_all_widgets(root)
     global e
     e =Entry(root,width= 55,borderwidth=10,fg ="blue")
@@ -22,8 +75,12 @@ def expand():
     button_equate = Button(root,text= "=",padx= 30,pady=10,command = result,fg ="white",bg="black")
     button_del = Button(root,text= "Del",padx= 25,pady=10,command = del_fun,fg ="white",bg="black")
     button_expand = Button(root,text= "N",padx= 29,pady=10,command = normal_mode,fg ="white",bg="black")
+    button_trigno = Button(root,text= "Trigno",padx= 18,pady=10,command = create_trigno,fg ="white",bg="black")
+    button_inverse =Button(root,text= "Inv",padx= 24,pady=10,command = create_inv,fg ="white",bg="black")
 
     button_clear.grid(row = 6,column=3)
+    button_trigno.grid(row=1,column=2)
+    button_inverse.grid(row=1,column=3)
 
     button_equate.grid(row= 6,column=4)
     button_del.grid(row=6,column= 2)
@@ -50,11 +107,16 @@ def button_click(number):
 def clear_info():
     e.delete(0,END)
 
+def safe_eval(expression):
+    try:
+        return eval(expression, {"__builtins__": None}, allowed_functions)
+    except Exception:
+        return "ERROR"
 
 def result():
     try:
         data =  e.get()
-        ans = str(eval(data))
+        ans = str(safe_eval(data))
         e.delete(0,END)
         e.insert(0,ans)
     except: 
