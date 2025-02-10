@@ -1,6 +1,6 @@
 from tkinter import *
 import math
-
+#functions to be used in the eval func
 allowed_functions = {
     "ln": math.log,         # Natural log (base e)
     "log2": math.log2,      # Log base 2
@@ -10,9 +10,33 @@ allowed_functions = {
     "sec": lambda x: 1 / math.cos(x),
     "cosec": lambda x: 1 / math.sin(x),
     "cot": lambda x: 1 / math.tan(x),
+    "fact": math.factorial, 
+    "nPr": math.perm, 
+    "nCr": math.comb,
     "asin": math.asin, "acos": math.acos, "atan": math.atan,
     "π": math.pi, "e": math.e,"pow":lambda x,y:math.pow(x,y)
+    
 }
+
+#function thaty remove the widget of extra functions
+
+def distroy_func():
+    global extra_func
+    for i in extra_func:
+        i.grid_forget()
+        
+#function that create the widget od extra functions
+def create_func():
+    global extra_func
+    extra_func =[]
+    buttons = (("fact(",2,1),("nPr",2,2),("nCr",3,1),("e",3,2))
+    for i,row,col in buttons:
+        button = Button(root,text=i,font=("Arial", 14),relief="ridge", borderwidth=3, width=6, height=2,command =lambda num = i:button_click(num),bg ="black",fg ="white")
+        button.grid(row=row,column=col)
+        extra_func.append(button)
+    button_trigno = Button(root,text= "func",font=("Arial", 14),relief="ridge", borderwidth=3, width=6, height=2,command = distroy_func,fg ="white",bg="black")
+    button_trigno.grid(row=2,column=0)
+    extra_func.append(button_trigno)
 
 
 
@@ -34,6 +58,8 @@ def create_log():
     button_trigno = Button(root,text= "Log",font=("Arial", 14),relief="ridge", borderwidth=3, width=6, height=2,command = distroy_log,fg ="white",bg="black")
     button_trigno.grid(row=1,column=4)
     log_func.append(button_trigno)
+
+
 def distroy_inv():
     global inv_func
     for i in inv_func:
@@ -83,7 +109,7 @@ def expand():
            ("4",3,1),("5",3,2),("6",3,3),("-",3,4),
            ("3",4,1),("2",4,2),("1",4,3),("*",4,4),
            ("0",5,1),("/",5,4),(".",5,2),("%",5,3),
-           ("π",2,0),("e",3,0),(",",4,0),("pow(",5,0),("sqrt(",6,0)]
+           ("π",3,0),(",",4,0),("pow(",5,0),("sqrt(",6,0)]
     for i,row,col in buttons:
         button = Button(root,text=i,font=("Arial", 14),relief="ridge", borderwidth=3,width=6, height=2,command =lambda num = i:button_click(num),bg ="black",fg ="white")
         button.grid(row=row,column=col)
@@ -95,10 +121,13 @@ def expand():
     button_trigno = Button(root,text= "Trigno",font=("Arial", 14),relief="ridge", borderwidth=3,width=6, height=2,command = create_trigno,fg ="white",bg="black")
     button_inverse =Button(root,text= "Inv",font=("Arial", 14),relief="ridge", borderwidth=3,width=6, height=2,command = create_inv,fg ="white",bg="black")
     button_log =Button(root,text= "log",font=("Arial", 14),relief="ridge", borderwidth=3,width=6, height=2,command = create_log,fg ="white",bg="black")
+    button_func =Button(root,text= "func",font=("Arial", 14),relief="ridge", borderwidth=3,width=6, height=2,command = create_func,fg ="white",bg="black")
     button_clear.grid(row = 6,column=3)
     button_trigno.grid(row=1,column=2)
     button_inverse.grid(row=1,column=3)
     button_log.grid(row=1,column=4)
+    button_func.grid(row =2,column=0)
+
 
     button_equate.grid(row= 6,column=4)
     button_del.grid(row=6,column= 2)
