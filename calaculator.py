@@ -149,6 +149,7 @@ root.configure(bg="#808080")
 
 def button_click(number):
     current_number = e.get()
+    
     e.delete(0,END)
     e.insert(0,str(current_number)+number)
 
